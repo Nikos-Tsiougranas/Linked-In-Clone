@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Linked In</title>
+      
+</head>
+
+<body>
+
+  <div class="login-page">
+    <div class="form">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <input type="text" placeholder="username" ngModel name=email/>
+        <input type="password" placeholder="password" ngModel name=password/>
+        <button type="submit">login</button>
+        <p class="message">Not registered? <a routerLink="/signup">Create an account</a>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

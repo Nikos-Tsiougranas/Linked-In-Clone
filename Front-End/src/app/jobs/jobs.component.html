@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <body>
+    <div class = "navbar">
+      <ul>
+        <li><a href="home">Home</a></li>
+        <li><a href="network">Network</a></li>
+        <li><a href="jobs">Jobs</a></li>
+        <li><a href="messages">Messages</a></li>
+        <li><a href="notifications">Notifications</a></li>
+        <li><a href="profile/me">Profile</a></li>
+        <li><a routerLink="/settings">Settings</a></li>
+      </ul>
+    </div>
+    <div *ngIf="displaySwitch; then findjob; else post_job"></div>
+    <ng-template #findjob>
+      <button class="postjobbutton2" (click)="displaySwitch=false">Post a job</button>
+      <div *ngIf="displayYourJobsSwitch; then displaythem"></div>
+      <ng-template #displaythem>
+          <h2>Your Jobs</h2>
+          <div class="flex-container-scroll">
+              <div class="profile-card" *ngFor="let job of myjobs">
+                <div>
+                  <h4><p><b>{{job.title}}</b></p></h4>  
+                  <p>Skills needed: {{job.skills}}</p>
+                  <div class="scroll"><p>Description: {{job.description}}</p></div>
+                  <div class="scroll">
+                    <span>Applicants:</span> 
+                    <ul>
+                      <li *ngFor="let applicant of job.applicants">
+                        <a href="profile/{{applicant.email}}">{{applicant.firstname}} {{applicant.lastname}}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>  
+      </ng-template>
+      <h2>Find your next job</h2>
+      <div class="flex-container">
+        <div class="profile-card" *ngFor="let job of jobs; index as i">
+          <div>
+            <h4><p><b>{{job.title}}</b></p></h4>  
+            <p>Skills needed: {{job.skills}}</p>
+            <div class="scroll"><p>Description: {{job.description}}</p></div>
+              <b>Employer <a href="profile/{{job.creator.email}}">{{job.creator.firstname}} {{job.creator.lastname}}</a></b>
+            </div>
+            <div *ngIf="applicationstatus[i]; then notdisplaybutton;else displaybutton"></div>
+            <ng-template #displaybutton>
+              <button class="applicationbutton" (click)="applicatejob(i)">Applicate</button>
+            </ng-template>
+            <ng-template #notdisplaybutton>
+              <button class="applicationbutton" >Applicated!</button>
+            </ng-template>
+            
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #post_job>
+      <form (ngSubmit)="postjob()" #f="ngForm">
+        <div class="big-card">
+          <div class="container">
+            <h1>
+              <b>Job Name</b>
+            </h1> 
+            <input type="text" placeholder="Job Name..." ngModel name=jobname>
+          </div>
+        </div>
+        <div class="big-card">
+          <div class="container">
+            <h1>
+              <b>Description</b>
+            </h1> 
+            <input type="text" placeholder="Description..." ngModel name=description>
+          </div>
+        </div>
+        <div class="big-card">
+          <div class="container">
+            <h1>
+              <b>Skills</b>
+            </h1> 
+            <input type="text" placeholder="Skills separetated by comma..." ngModel name=skills>
+          </div>
+        </div>
+        <button class="postjobbutton" >Post Job</button>
+      </form>
+    </ng-template>
+  </body>
+</html>

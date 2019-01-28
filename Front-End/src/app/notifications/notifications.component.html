@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  </head>
+  <body>
+
+    <div class = "navbar">
+      <ul>
+        <li><a href="home">Home</a></li>
+        <li><a href="network">Network</a></li>
+        <li><a href="jobs">Jobs</a></li>
+        <li><a href="messages">Messages</a></li>
+        <li><a href="notifications">Notifications</a></li>
+        <li><a href="profile/me">Profile</a></li>
+        <li><a routerLink="/settings">Settings</a></li>
+      </ul>
+    </div>
+
+    <div *ngIf="displaySwitch; then mainPage; else articlePage"></div>
+    <ng-template #mainPage>
+      <div class="container">
+        <table>
+          <tr *ngFor="let user of users">
+            <th><a href="profile/{{user.email}}">{{user.firstname}} {{user.lastname}}</a><button class="button button3" (click)="Decline(user.email)">Decline</button> <button class="button button1" (click)="Accept(user.email)">Accept</button></th>
+          </tr>
+        </table>
+      </div>
+      <div class="container">
+        <table>
+          <tr *ngFor="let notification of allNotifications">
+            <th *ngIf="notification.text != null"><a href="profile/{{notification.user.email}}">{{notification.user.firstname}} {{notification.user.lastname}}</a> commented on your <a href="notifications/{{notification.article.id}}">article</a>: <i>{{notification.text}}</i></th>
+            <th *ngIf="notification.text == null"><a href="profile/{{notification.user.email}}">{{notification.user.firstname}} {{notification.user.lastname}}</a> liked your <a href="notifications/{{notification.article.id}}">article</a></th>
+          </tr>
+
+        </table>
+      </div>
+    </ng-template>
+
+    <ng-template #articlePage>
+      <div class="article-container">
+          {{article.user.firstname}} {{article.user.lastname}} posted: <br> {{article.text}} 
+          <br>
+          <div *ngIf="article.file != null && article.file.indexOf('image')>-1">
+            <img src="{{host}}/getFile/{{article.file}}">
+          </div>
+          <div *ngIf="article.file != null && article.file.indexOf('video')>-1">
+            <video src="{{host}}/getFile/{{article.file}}" controls></video>
+          </div>
+          <div *ngIf="article.file != null && article.file.indexOf('audio')>-1">
+            <audio src="{{host}}/getFile/{{article.file}}" controls></audio>
+          </div>
+          <br>
+          <button class="button4" (click)="onLike(article.id,article.like.status)">{{article.like.status}}</button>
+          <input type="text" placeholder="Post a comment..." [(ngModel)]="commentForPost">
+          <button class="button4" (click)="onPost(article.id,commentForPost)">Post</button>
+          <div class="list">
+            <ul>
+              <li class="comment" *ngFor="let comment of article.comments">
+                {{comment.user.firstname}} {{comment.user.lastname}}: {{comment.text}}
+              </li>
+            </ul>
+          </div>
+          
+      </div>
+    </ng-template>
+
+  </body>
+</html>

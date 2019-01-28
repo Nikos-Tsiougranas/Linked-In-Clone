@@ -1,0 +1,179 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: rgb(48, 48, 48);
+}
+
+.navbar li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    float: left;
+}
+
+.navbar li a:hover:not(.active) {
+    background-color: rgb(58, 58, 58);
+}
+
+.navbar .active {
+    background-color: #4CAF50;
+}
+
+body{
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .search-container {
+    float: right;
+}
+
+.navbar input[type=text] {
+    padding: 6px;
+    margin-top: 8px;
+    font-size: 17px;
+    border: none;
+}
+
+.navbar .search-container button {
+    float: right;
+    padding: 6px 10px;
+    margin-top: 8px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+}
+
+.navbar .search-container button:hover {
+    background: #ccc;
+}
+
+.people-container{
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 5px;
+    background-color: #EBEBEB;
+    padding: 20px;
+    width: 15%;
+    height: 720px;
+    overflow-y: scroll;
+    float: left;
+}
+
+.chat-container{
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 5px;
+    background-color: #EBEBEB;
+    padding: 20px;
+    width:70%;
+    height: 600px;
+    overflow-y: scroll;
+    float: left;
+}
+
+table {
+    border-collapse: collapse;
+    width: 90%;
+    margin: auto;
+    background: #ccc
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(odd) {background-color: #f2f2f2;}
+
+.post{
+    width: 70%;
+    height: 80px;
+    padding: 20px;
+    background-color: #f8f8f8;
+    float: left;
+}
+
+textarea{
+    display: block;
+    width: 100%;
+    height: 70%;
+    border: 0px solid #ccc;
+    border-radius: 4px;
+    background-color: #f8f8f8;
+    margin: auto;
+    resize: none;
+}
+
+input[type=submit] {
+    position: relative;
+    top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    float: right;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+
+.bubble{
+    border: 2px solid #dedede;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.darker {
+    border-color: #ccc;
+    background-color: #ddd;
+}
+
+.bubble::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.bubble img {
+    float: left;
+    max-width: 60px;
+    max-height: 60px;
+    width: 100%;
+    margin-right: 20px;
+    border-radius: 50%;
+}
+
+.bubble img.right {
+    float: right;
+    margin-left: 20px;
+    margin-right: 0px;
+}
+
+.text-right{
+    text-align: right;
+    margin: 10px;
+    color: rgb(0, 0, 0);
+}
+
+.text-left{
+    text-align: left;
+    margin: 10px;
+    color: rgb(0, 0, 0);
+}

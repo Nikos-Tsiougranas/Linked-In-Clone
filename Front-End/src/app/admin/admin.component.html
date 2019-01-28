@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+
+    <div *ngIf="downloadSwitch; then download; else navigate"></div>
+    
+    <ng-template #download>
+        <div class = "navbar">
+            <ul>
+              <li>
+                <button class="ng" (click)="downloadSwitch=false">Users Page</button>      
+              </li>
+            </ul>
+        </div>
+        <form [formGroup]="myGroup">
+            <div *ngFor="let category of myGroup.controls['myCategory'].controls; let i = index">
+              <input type="checkbox" [formControl]="category">
+              <label>{{ categories[i].name }}</label>
+            </div>
+            <form (ngSubmit)="Download()" #f="ngForm">
+                <button type="submit">Download</button>
+            </form>
+        </form>
+    </ng-template>
+
+    <ng-template #navigate>
+      <div class = "navbar">
+        <ul>
+          <li>
+            <button class="ng" (click)="downloadSwitch=true">Download XML</button>      
+          </li>
+          <li>
+            <div class="search-container">
+                <form (ngSubmit)="onSubmit()" #f="ngForm">
+                  <input type="text" placeholder="Search..." ngModel name=search>
+                  <button type="submit"><i class="fa fa-search"></i></button>
+                </form>
+            </div>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="displaySwitch; then admin; else search"></div>
+      <ng-template #admin>
+        <div class="container">
+          <table>
+            <tr *ngFor="let user of users">
+              <!-- <img src="img_avatar2.png" alt="Avatar" style="width:100%"> -->
+              <b><a href="profile/{{user.email}}">{{user.firstname}} {{user.lastname}}</a></b>
+            </tr>
+          </table>
+        </div>
+      </ng-template>
+      
+      <ng-template #search>
+        <div class="container">
+          <table>
+            <tr *ngFor="let user of users">
+              <th><a href="profile/{{user.email}}">{{user.firstname}} {{user.lastname}}</a></th>
+            </tr>
+          </table>
+        </div>
+      </ng-template>
+    </ng-template>
+  </body>
+</html>

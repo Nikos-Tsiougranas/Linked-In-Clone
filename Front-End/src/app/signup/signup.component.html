@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html lang="en" >
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <title>Linked In</title>
+      
+</head>
+
+<body>
+  <div class="login-page">
+    <div class="form">
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <input type="email" placeholder="email address" ngModel name=email/>
+        <input type="password" placeholder="password" ngModel name=password/>
+        <input type="password" placeholder="confirm password" ngModel name=confirm_password/>
+        <input type="text" placeholder="name" ngModel name=name/>
+        <input type="text" placeholder="surname" ngModel name=surname/>
+        <input type="tel" placeholder="telephone number" ngModel name=phone/>
+        Upload Profile Image <br>
+        <input type="file" id="file" ngModel name=file (change)="onFileSelected($event)" accept="image/*">
+        
+        <button type="submit" >Sign Up</button>
+        <p class="message">Already registered? <a routerLink="/login">Sign In</a>
+      </form>
+    </div>
+  </div>
+
+</body>
+
+</html>

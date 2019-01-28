@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  </head>
+  <body>
+
+    <div class = "navbar">
+      <ul>
+        <li><a href="home">Home</a></li>
+        <li><a href="network">Network</a></li>
+        <li><a href="jobs">Jobs</a></li>
+        <li><a href="messages">Messages</a></li>
+        <li><a href="notifications">Notifications</a></li>
+        <li><a href="profile/me">Profile</a></li>
+        <li><a routerLink="/settings">Settings</a></li>
+      </ul>
+    </div>
+
+    <div class="people-container">
+      <table>
+        <tr *ngFor="let friend of friends">
+          <th><a href="messages/{{friend.email}}">{{friend.firstname}} {{friend.lastname}}</a></th>
+        </tr>
+      </table>
+    </div>
+
+    <div class="chat-container">
+      <div class="bubbleText" *ngFor="let message of mymessages; let i = index;">
+        <div *ngIf="message.user.email===email; then left; else right"></div>
+        <ng-template #right>
+          <div class="bubble darker">
+            <img src="{{host}}/getFile/{{me.profileImage}}" alt="Avatar" class="right" style="width:100%;">
+            <p class="text-right">{{message.text}}</p>
+          </div>
+        </ng-template>
+        <ng-template #left>
+          <div class="bubble">
+              <img src="{{host}}/getFile/{{friend.profileImage}}" alt="Avatar" style="width:100%">
+            <p class="text-left">{{message.text}}</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="post">
+      <form (ngSubmit)="onSend()" #f="ngForm">
+        <textarea  placeholder="Type a message..." ngModel name="messageText"></textarea>
+        <input type="submit" value="Send">
+      </form>
+    </div>
+
+  </body>
+</html>

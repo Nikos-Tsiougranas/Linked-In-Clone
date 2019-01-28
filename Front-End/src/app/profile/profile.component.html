@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+  <body>
+
+    
+    <div *ngIf="adminSwitch; then adminprofile; else userprofile"></div>
+    
+    <ng-template #adminprofile>
+        <div class = "navbar">
+          <ul>
+            <li><a href="admin">Users Page</a></li>
+          </ul>
+        </div>
+        <div class="profile-card">
+            <img src="{{host}}/getFile/{{user.profileImage}}" alt="Avatar" style="width:100%">
+            <div class="container">
+              <h4>
+                <b>{{user.firstname}} {{user.lastname}}</b>
+                <div *ngIf="myprofile; then editProfile; else addFriend;"></div>
+              </h4> 
+              
+              <p><i class="material-icons">email</i> {{user.email}}</p> 
+              <p><i class="material-icons">contact_phone</i> {{user.phone}}</p> 
+            </div>
+        </div>
+        <div class="big-card">
+            <div class="container">
+              <h1>
+                <b>Work Experience</b>
+              </h1> 
+              <p>{{user.workExp}}</p> 
+            </div>
+        </div>
+        <div class="big-card">
+            <div class="container">
+              <h1>
+                <b>Education</b>
+              </h1> 
+              <p>{{user.eduExp}}</p> 
+            </div>
+        </div>
+        <div class="big-card">
+            <div class="container">
+              <h1>
+                <b>Skills</b>
+              </h1> 
+              <p>{{user.skillsExp}}</p> 
+            </div>
+        </div>
+    </ng-template>
+    
+    <ng-template #userprofile>
+    <div class = "navbar">
+      <ul>
+        <li><a href="home">Home</a></li>
+        <li><a href="network">Network</a></li>
+        <li><a href="jobs">Jobs</a></li>
+        <li><a href="messages">Messages</a></li>
+        <li><a href="notifications">Notifications</a></li>
+        <li><a href="profile/me">Profile</a></li>
+        <li><a routerLink="/settings">Settings</a></li>
+      </ul>
+    </div>
+
+    <div *ngIf="displaySwitch; then profile; else edit"></div>
+    <!-- profile template -->
+    <ng-template #profile>
+      <div class="profile-card">
+          <img src="{{host}}/getFile/{{user.profileImage}}" alt="Avatar" style="width:100%">
+          <div class="container">
+            <h4>
+              <b>{{user.firstname}} {{user.lastname}}</b>
+              <div *ngIf="myprofile; then editProfile; else addFriend;"></div>
+              <ng-template #addFriend>
+                <button class="friendbutton" (click)="onClick()">{{friendStatus}}</button>
+              </ng-template>
+              <ng-template #editProfile>
+                <button class="friendbutton" (click)="editProf()">Edit Profile</button>
+              </ng-template>
+            </h4> 
+            <!-- if user is a friend diplay chat and network buttons -->
+            <div *ngIf="friendStatus == 'Remove Friend'">
+                <p><i class="fas fa-users"></i> <a href="network/{{email}}">Network</a> </p> 
+                <p><i class="material-icons">chat</i><a href="messages/{{email}}">Chat</a></p>
+            </div>
+            <p><i class="material-icons">email</i> {{user.email}}</p> 
+            <p><i class="material-icons">contact_phone</i> {{user.phone}}</p> 
+          </div>
+      </div>
+      
+      <div *ngIf="myprofile || user.workPrivacy === 'public'" class="big-card">
+          <div class="container">
+            <h1>
+              <b>Work Experience</b>
+            </h1> 
+            <p>{{user.workExp}}</p> 
+          </div>
+      </div>
+      <div *ngIf="myprofile || user.eduPrivacy === 'public'" class="big-card">
+          <div class="container">
+            <h1>
+              <b>Education</b>
+            </h1> 
+            <p>{{user.eduExp}}</p> 
+          </div>
+      </div>
+      <div *ngIf="myprofile || user.skillsPrivacy === 'public'" class="big-card">
+          <div class="container">
+            <h1>
+              <b>Skills</b>
+            </h1> 
+            <p>{{user.skillsExp}}</p> 
+          </div>
+      </div>
+    </ng-template>
+      <!-- edit profile template -->
+        <ng-template #edit>
+          <form (ngSubmit)="saveChanges()" #f="ngForm">
+            <div class="profile-card">
+              <!-- <img src="img_avatar2.png" alt="Avatar" style="width:100%"> -->
+              <div class="container">
+                <p>
+                  Change Name <br>
+                  <input type="text" placeholder="Firstname Lastname" ngModel name="name" [(ngModel)]="fullname">
+
+                  <input class="friendbutton" type="submit" value="Save Changes">
+                </p> 
+                Upload Profile Image <br>
+                <input type="file" id="file" (change)="onFileSelected($event)">
+                <p><i class="material-icons">email</i> {{user.email}}</p> 
+                <p><i class="material-icons">contact_phone</i> <input type="text" placeholder="Change Phone" ngModel name="phone" [(ngModel)]="user.phone"></p> 
+              </div>
+          </div>
+          <div class="big-card">
+              <div class="container">
+                <h1>
+                  <b>Work Experience</b>
+                </h1> 
+                <textarea placeholder="some text..." ngModel name="workExp" [(ngModel)]="user.workExp"></textarea>
+              </div>
+              <select name="workPrivacy" (change)="onPrivacyChange($event)">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+          </div>
+          <div class="big-card">
+              <div class="container">
+                <h1>
+                  <b>Education</b>
+                </h1> 
+                <textarea placeholder="some text..." ngModel name="eduExp" [(ngModel)]="user.eduExp"></textarea>
+              </div>
+              <select name="eduPrivacy" (change)="onPrivacyChange($event)">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+          </div>
+          <div class="big-card">
+              <div class="container">
+                <h1>
+                  <b>Skills</b>
+                </h1> 
+                <textarea placeholder="e.g. C,C++,Java" ngModel name="skillsExp" [(ngModel)]="user.skillsExp"></textarea>
+              </div>
+              <select name="skillsPrivacy" (change)="onPrivacyChange($event)">
+                <option disabled selected value> -- select an option -- </option>
+                <option value="private">Private</option>
+                <option value="public">Public</option>
+              </select>
+          </div>
+        </form>
+        </ng-template>
+    </ng-template>
+    
+    
+    
+
+  </body>
+</html>
